@@ -60,7 +60,7 @@ public class ProductService {
             Product entity = repository.getReferenceById(id);
             copyDtoEntity(dto, entity);
             //entity.setName(dto.getName());
-            repository.save(entity);
+            entity = repository.save(entity);
             return new ProductDto(entity);
         } catch (EntityNotFoundException e) {
             throw new ResouceNotFoundException("Código " + id + " não encontrado. ");
