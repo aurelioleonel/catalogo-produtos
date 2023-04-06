@@ -7,6 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -21,12 +25,19 @@ public class ProductDto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+    @NotBlank(message = "Campo requerido")
+    @Size(min = 5, max = 60, message = "O tamnaho do campo deve ser entre 5 e 60 caracteres")
     private String name;
     @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "Campo requerido")
     private String description;
+    @Positive(message = "O preço deve ser maior ou igual a zero")
     private Double price;
     private String imgUrl;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @PastOrPresent(message = "A data não pode ser maior do que a data de cadastro")
     private Instant date;
 
     private List<CategoryDto> categories = new ArrayList<>();

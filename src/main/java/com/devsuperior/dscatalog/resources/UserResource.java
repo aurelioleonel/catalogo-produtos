@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +22,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/users")
 public class UserResource {
-    //Controller -> Service -> Repository -> Banco de dados
-    //Dtos ficam entre os controller e o Service
+//Controller -> Service -> Repository -> Banco de dados
+//Dtos ficam entre os controller e o Service
 
     //    @RequestParam(value = "page", defaultValue = "0") Integer page,
 //    @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 //    @RequestParam(value = "direction", defaultValue = "ASC") String direction,
 //    @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+//    PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
     @Autowired
     private UserService service;
 
@@ -44,7 +46,7 @@ public class UserResource {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> insert(@RequestBody UserInsertDto dto) {
+    public ResponseEntity<UserDto> insert(@Valid @RequestBody UserInsertDto dto) {
         UserDto newDto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequestUri()
@@ -61,7 +63,7 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @Valid @RequestBody UserDto dto) {
         dto = service.update(id, dto);
 
         return ResponseEntity.ok().body(dto);
